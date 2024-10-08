@@ -1,3 +1,4 @@
+import ErrorBoundary from "@/components/ErrorBoundary";
 import type { Metadata } from "next";
 import Layout from "@/components/layout/Layout"
 import "@/styles/globals.css";
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-black text-white">
-        <Layout>{children}</Layout>
+        <ErrorBoundary>
+          <Layout>{children}</Layout>
+        </ErrorBoundary>
       </body>
     </html>
   );

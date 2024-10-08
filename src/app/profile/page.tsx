@@ -2,6 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Content {
   id: string;
@@ -20,9 +21,12 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (session?.user?.id) {
-      fetch(`/api/user/${session.user.id}/content`)
+      fetch('/api/content')
         .then(response => response.json())
-        .then(data => setUserContent(data))
+        .then(data => {
+          const filteredContent = data.filter((item: Content) => item.userId === session.user.id);
+          setUserContent(filteredContent);
+        })
         .catch(error => console.error('Error fetching user content:', error));
     }
   }, [session]);
@@ -45,6 +49,9 @@ export default function ProfilePage() {
           <p className="mb-2">{content.content.substring(0, 100)}...</p>
           <p><strong>Upvotes:</strong> {content.votes.upvotes}</p>
           <p><strong>Downvotes:</strong> {content.votes.downvotes}</p>
+          <Link href={`/edit/${content.id}`} className="text-blue-500 hover:underline">
+            Edit
+          </Link>
         </div>
       ))}
     </div>

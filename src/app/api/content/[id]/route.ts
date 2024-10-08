@@ -1,19 +1,22 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/[...nextauth]/route"
+import { authOptions } from "../../auth/[...nextauth]/route"
 import dbConnect from '@/lib/db';
 import Content from '@/models/Content';
 import { generateQuestions } from '@/lib/llm';
 
-export async function GET() {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   await dbConnect();
   
   try {
-    const contents = await Content.find({}).sort({ createdAt: -1 }).lean();
-    return NextResponse.json(contents);
+    const content = await Content.findById(params.id);
+    if (!content) {
+      return NextResponse.json({ error: 'Content not found' }, { status: 404 });
+    }
+    return NextResponse.json(content);
   } catch (error) {
     console.error('Error fetching content:', error);
-    return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -22,13 +25,13 @@ export async function POST(request: Request) {
   
   try {
     const session = await getServerSession(authOptions)
-    if (!session || !session.user) {
+    if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const { title, description, initialQuestions, fileUrls } = await request.json();
 
-    if (!title || !description || !initialQuestions || !fileUrls || fileUrls.length === 0) {
+    if (!title || !description || !initialQuestions || !fileUrls) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
@@ -49,6 +52,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Content submitted successfully', content: newContent });
   } catch (error) {
     console.error('Error submitting content:', error);
-    return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

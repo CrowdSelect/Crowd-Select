@@ -4,5 +4,17 @@
     "title": "crowd",
     "content": "crowd crowd",
     "createdAt": "2024-09-29T17:07:04.466Z"
+  },
+  {
+    "id": "1727696311778",
+    "userId": "1",
+    "username": "testuser",
+    "title": "Harsha",
+    "content": "Harsha Harsha",
+    "createdAt": "2024-09-30T11:38:31.778Z",
+    "votes": {
+      "upvotes": 0,
+      "downvotes": 0
+    }
   }
 ]
