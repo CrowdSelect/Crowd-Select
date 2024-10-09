@@ -19,39 +19,7 @@ CrowdInsight is a cutting-edge web-based platform that revolutionizes the way co
 
 CrowdInsight follows a microservices-based architecture, utilizing modern technologies to ensure scalability, performance, and maintainability.
 
-```
-+------------------+
-|   API Gateway    |
-+--------+---------+
-         |
-+--------v---------+
-|  User Management |
-+--------+---------+
-         |
-+--------v---------+
-|    Content Mgmt  |
-+--------+---------+
-         |
-+--------v---------+
-|  Voting Service  |
-+--------+---------+
-         |
-+--------v---------+
-| Feedback Process |
-+--------+---------+
-         |
-+--------v---------+
-| LLM Integration  |
-+--------+---------+
-         |
-+--------v---------+
-|    Analytics     |
-+--------+---------+
-         |
-+--------v---------+
-|  Payment Service |
-+------------------+
-```
+![image](https://github.com/user-attachments/assets/9e68f20a-02e8-4892-8def-de6c7b525e13)
 
 - **Frontend**: React with Next.js
 - **Backend**: Node.js with Express.js
